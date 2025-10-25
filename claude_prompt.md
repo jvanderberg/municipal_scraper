@@ -140,15 +140,29 @@ A guide to finding specific types of information:
 
 Create `gpt_instructions.md` with:
 
-**Short, focused instructions** (1-2 paragraphs) for a GPT that has access to your reference documents. The instructions should:
-- Explain the GPT's role (helping users navigate/understand the municipal website)
+**Comprehensive instructions** for a GPT that has access to your reference documents. The instructions should:
+- Explain the GPT's role as a **helpful assistant**, not just a directory
 - Reference the specific documents created (site_overview.md, page_index.md, etc.)
 - Explain how to use those documents to answer user questions
-- Guide the GPT on when to provide URLs vs. summaries
+- **Emphasize synthesis and summarization** - the GPT should explain processes, compare options, and provide context
+- Guide the GPT to be conversational, informative, and proactive
+- Encourage combining information from multiple pages for comprehensive answers
+- Provide example responses showing the desired style (helpful summary + URLs + context)
 - Suggest the GPT can ask for PDFs to be fetched if the user needs details
 
-**Example instruction format:**
-> "You are a municipal website assistant with access to a comprehensive catalog of [City Name]'s website. Use `site_overview.md` to understand the overall structure, `page_index.md` to find important pages, `complete_index.md` to search all pages and documents, `document_catalog.md` to locate documents by category, and `navigation_guide.md` to help users find information efficiently. When answering questions, provide relevant URLs and explain what users will find there. If detailed information is in a PDF, provide the PDF URL and offer to analyze it if the user provides it."
+**Key principle:**
+The GPT has access to **full page content** (word counts, headings, cleaned text). It should use this to:
+- Summarize what's on pages, not just point to them
+- Explain processes and requirements
+- Compare similar services or programs
+- Anticipate related questions and proactively provide info
+- Guide users through multi-step processes
+
+**Response style:**
+"Here's what you need to know about [topic]... [summary of key points] ...You can find more details at [URL], which includes [specific elements]. You might also be interested in [related service]."
+
+**Not just:**
+"For [topic], visit [URL]"
 
 ## Output Files You Should Create
 
@@ -162,10 +176,15 @@ Create `gpt_instructions.md` with:
 ## Success Criteria
 
 Your reference documents should enable a GPT (with no other context) to:
-- Answer "Where can I find...?" questions accurately
-- Explain what sections/departments exist
-- Direct users to relevant pages and documents
-- Understand the structure and navigation of the site
-- Provide helpful context about what information is available
+- **Answer questions with substance**, not just URLs - summarize key information
+- **Synthesize information** from multiple pages to provide comprehensive answers
+- **Explain processes and requirements** (e.g., how to apply for permits, what documents are needed)
+- **Compare and contextualize** options (e.g., explain different permit types, program eligibility)
+- **Guide users through multi-step processes** (e.g., building permit application process)
+- **Anticipate related needs** and proactively suggest relevant information
+- **Direct users to specific pages** with context about what they'll find there
+- **Understand the site structure** and navigate users through departments and services
 
-The GPT instructions should be concise enough to fit in a GPT system prompt while effectively leveraging your detailed reference documents.
+**The GPT should feel like talking to a knowledgeable city hall employee**, not a search engine.
+
+The GPT instructions should provide clear guidance on this helpful, synthesizing approach while effectively leveraging your detailed reference documents.
