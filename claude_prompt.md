@@ -72,6 +72,15 @@ Creates the document catalog from analysis data:
 
 **Run with**: `python3 generate_document_catalog.py`
 
+### `generate_complete_index.py`
+Creates a lightweight complete index of ALL pages and PDFs:
+- Lists every page alphabetically with URL and word count
+- Lists every PDF by category with URL and size
+- Provides comprehensive search coverage
+- Generates `output/complete_index.md`
+
+**Run with**: `python3 generate_complete_index.py`
+
 ## Your Task
 
 Create reference documents and instructions for a GPT (pre-prompted LLM) that will help users navigate and understand this municipal website.
@@ -113,7 +122,14 @@ Summary of available documents (PDFs):
 - Note what parent page references each document
 - Highlight important/frequently-referenced documents
 
-#### 4. `navigation_guide.md`
+#### 4. `complete_index.md`
+A comprehensive lightweight index of ALL content:
+- Every page listed alphabetically with URL and word count
+- Every PDF listed by category with URL and size
+- Enables complete search coverage for specific queries
+- Size indicators for pages (comprehensive, detailed, brief, minimal)
+
+#### 5. `navigation_guide.md`
 A guide to finding specific types of information:
 - "How to find..." sections for common queries
 - Which pages contain specific topics
@@ -132,15 +148,16 @@ Create `gpt_instructions.md` with:
 - Suggest the GPT can ask for PDFs to be fetched if the user needs details
 
 **Example instruction format:**
-> "You are a municipal website assistant with access to a comprehensive catalog of [City Name]'s website. Use `site_overview.md` to understand the overall structure, `page_index.md` to find specific pages, `document_catalog.md` to locate documents, and `navigation_guide.md` to help users find information efficiently. When answering questions, provide relevant URLs and explain what users will find there. If detailed information is in a PDF, provide the PDF URL and offer to analyze it if the user provides it."
+> "You are a municipal website assistant with access to a comprehensive catalog of [City Name]'s website. Use `site_overview.md` to understand the overall structure, `page_index.md` to find important pages, `complete_index.md` to search all pages and documents, `document_catalog.md` to locate documents by category, and `navigation_guide.md` to help users find information efficiently. When answering questions, provide relevant URLs and explain what users will find there. If detailed information is in a PDF, provide the PDF URL and offer to analyze it if the user provides it."
 
 ## Output Files You Should Create
 
 1. `output/site_overview.md`
 2. `output/page_index.md`
-3. `output/document_catalog.md`
-4. `output/navigation_guide.md`
-5. `output/gpt_instructions.md`
+3. `output/complete_index.md`
+4. `output/document_catalog.md`
+5. `output/navigation_guide.md`
+6. `output/gpt_instructions.md`
 
 ## Success Criteria
 
