@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 """Generate complete_index.md - lightweight index of ALL pages and PDFs"""
 import json
+import argparse
 from pathlib import Path
+
+# Parse arguments
+parser = argparse.ArgumentParser(description='Generate complete index from catalog analysis')
+parser.add_argument('--site-id', type=str, default='', help='Site identifier for multi-site catalogs (e.g., "village", "district97")')
+args = parser.parse_args()
+
+# Determine filename prefix
+prefix = f"{args.site_id}_" if args.site_id else ""
 
 # Load analysis
 with open('output/analysis.json', 'r') as f:
@@ -94,7 +103,9 @@ output.append(f"- Document Categories: {len([c for c in pdf_categories.keys() if
 output.append(f"\n**Total Index Size**: ~{len(''.join(output)) / 1024:.0f} KB\n")
 
 # Write the output
-output_path = Path('output/complete_index.md')
+# Ensure analysis directory exists
+Path('output/analysis').mkdir(parents=True, exist_ok=True)
+output_path = Path(f'output/analysis/{prefix}complete_index.md')
 with open(output_path, 'w') as f:
     f.writelines(output)
 

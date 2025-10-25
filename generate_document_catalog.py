@@ -1,8 +1,17 @@
 #!/usr/bin/env python3
 """Generate document_catalog.md from analysis data"""
 import json
+import argparse
 from pathlib import Path
 from collections import defaultdict
+
+# Parse arguments
+parser = argparse.ArgumentParser(description='Generate document catalog from analysis')
+parser.add_argument('--site-id', type=str, default='', help='Site identifier for multi-site catalogs (e.g., "village", "district97")')
+args = parser.parse_args()
+
+# Determine filename prefix
+prefix = f"{args.site_id}_" if args.site_id else ""
 
 # Load analysis
 with open('output/analysis.json', 'r') as f:
@@ -110,7 +119,9 @@ for parent_url, parent_pdfs in sorted_all_parents[:10]:
     output.append(f"  - {parent_url}\n\n")
 
 # Write the output
-output_path = Path('output/document_catalog.md')
+# Ensure analysis directory exists
+Path('output/analysis').mkdir(parents=True, exist_ok=True)
+output_path = Path(f'output/analysis/{prefix}document_catalog.md')
 with open(output_path, 'w') as f:
     f.writelines(output)
 

@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 """Generate page_index.md from analysis data"""
 import json
+import argparse
 from pathlib import Path
+
+# Parse arguments
+parser = argparse.ArgumentParser(description='Generate page index from catalog analysis')
+parser.add_argument('--site-id', type=str, default='', help='Site identifier for multi-site catalogs (e.g., "village", "district97")')
+args = parser.parse_args()
+
+# Determine filename prefix
+prefix = f"{args.site_id}_" if args.site_id else ""
 
 # Load analysis
 with open('output/analysis.json', 'r') as f:
@@ -75,7 +84,9 @@ for section_name, pages in sections.items():
         output.append(f"*...and {len(sorted_pages) - 15} more pages in this section*\n\n")
 
 # Write the output
-output_path = Path('output/page_index.md')
+# Ensure analysis directory exists
+Path('output/analysis').mkdir(parents=True, exist_ok=True)
+output_path = Path(f'output/analysis/{prefix}page_index.md')
 with open(output_path, 'w') as f:
     f.writelines(output)
 

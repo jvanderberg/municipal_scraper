@@ -1,0 +1,72 @@
+# Oak Park, Illinois - Community Information
+
+This file describes the community and its key organizations. Claude will use this to identify what to scrape and catalog.
+
+## Community Overview
+
+Oak Park is a diverse suburb of Chicago with about 54,000 residents. It's known for its Frank Lloyd Wright architecture, progressive politics, and strong community institutions.
+
+## Key Organizations
+
+### Village Government
+The Village of Oak Park provides municipal services including police, fire, public works, water/sewer, parking, and community development.
+
+Website: https://oak-park.us
+
+**What to catalog**: All departments, services, meetings, ordinances, permits, public records
+
+---
+
+### School Districts
+
+**Oak Park Elementary School District 97**
+Serves K-8 students in Oak Park. Multiple elementary schools and one middle school.
+
+Website: https://www.op97.org
+
+**What to catalog**: School information, enrollment, calendar, board meetings, policies, curriculum
+
+**Oak Park and River Forest High School District 200**
+Public high school serving Oak Park and neighboring River Forest.
+
+Website: https://www.oprfhs.org
+
+**What to catalog**: Programs, athletics, academics, enrollment, calendar, board information
+
+---
+
+### Park District
+Oak Park Park District manages parks, recreation centers, and programs throughout the village.
+
+Website: https://www.pdop.org
+
+**What to catalog**: Park locations, recreation programs, facilities, sports leagues, registration
+
+---
+
+### Library
+Oak Park Public Library - Main library plus Maze Branch.
+
+Website: https://www.oppl.org
+
+**What to catalog**: Services, programs, digital resources, events, meeting rooms
+
+---
+
+### Local News
+**Wednesday Journal**
+Weekly newspaper covering Oak Park and nearby suburbs. Good source for community news and context.
+
+Website: https://www.oakpark.com
+
+**What to catalog**: Recent news articles (don't need deep archive), community calendar
+
+---
+
+## Notes for Claude
+
+- If a URL is missing or doesn't work, please search for the official website
+- Focus on practical, service-oriented content
+- For schools: prioritize parent-facing information (enrollment, calendar, policies)
+- For news: recent articles are most valuable for context
+- Create a unified GPT that knows which organization handles what

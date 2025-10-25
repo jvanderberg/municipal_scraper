@@ -1,9 +1,10 @@
 # Municipal Website Scraper
 
-Catalog any municipal website and create LLM-ready reference documents that enable a GPT to help residents navigate government services.
+Catalog municipal and community websites to create a comprehensive GPT assistant that helps residents navigate all community information - government, schools, parks, library, and more.
 
 ## Quick Start
 
+### Simple: Single Website
 ```bash
 # 1. Setup once
 ./setup.sh
@@ -11,10 +12,36 @@ Catalog any municipal website and create LLM-ready reference documents that enab
 # 2. Scrape your municipal website
 ./run.sh https://your-city.gov
 
-# 3. Prompt Claude to analyze (see below)
+# 3. Prompt Claude to analyze (see Single-Site Workflow below)
 ```
 
-## Complete Workflow
+### Advanced: Full Community (Multiple Sites)
+```bash
+# 1. Setup once
+./setup.sh
+
+# 2. Create community.md describing your community
+#    (See community.md.example)
+
+# 3. Prompt Claude to orchestrate everything:
+#    "Please read community.md and create a complete community information catalog"
+
+# Claude will scrape all sites, analyze everything, and create a unified GPT
+```
+
+## Two Workflows
+
+### Single-Site Workflow
+For cataloging just one website (e.g., city government only).
+**→ See "Complete Workflow" section below**
+
+### Multi-Site Community Workflow
+For cataloging an entire community (government + schools + parks + library + news).
+**→ See "Community Workflow" section below**
+
+---
+
+## Single-Site Complete Workflow
 
 ### Step 1: Scrape the Website
 
@@ -43,9 +70,10 @@ Please read claude_prompt.md and analyze the output directory to create
 the reference documents for a GPT.
 ```
 
-Claude will create 5 markdown files in `output/`:
+Claude will create 6 markdown files in `output/analysis/`:
 - **site_overview.md** - Overall structure and organization
-- **page_index.md** - Organized index of all important pages
+- **page_index.md** - Organized index of important pages
+- **complete_index.md** - Comprehensive alphabetical index of ALL pages and PDFs
 - **document_catalog.md** - Complete PDF catalog by category
 - **navigation_guide.md** - "How to find..." guide for common queries
 - **gpt_instructions.md** - System prompt for your GPT
@@ -53,13 +81,95 @@ Claude will create 5 markdown files in `output/`:
 ### Step 3: Create Your GPT
 
 1. Create a new GPT (ChatGPT Plus required)
-2. Upload these 4 files as "Knowledge":
-   - site_overview.md
-   - page_index.md
-   - document_catalog.md
-   - navigation_guide.md
+2. Upload all files from `output/analysis/` as "Knowledge"
 3. Use `gpt_instructions.md` as your GPT's system prompt
 4. Done! Your GPT can now help residents navigate your city's website
+
+---
+
+## Multi-Site Community Workflow
+
+For cataloging an entire community across multiple websites.
+
+### Step 1: Describe Your Community
+
+Create `community.md` - a plain text description of your community and its key organizations:
+
+```markdown
+# Your Town Name
+
+## Village Government
+Website: https://your-town.gov
+What to catalog: All departments, services, meetings, permits
+
+## School District
+Serves K-12 students
+What to catalog: Enrollment, calendar, board meetings
+(No URL - Claude will search for it)
+
+## Park District
+Website: https://parks.your-town.gov
+What to catalog: Recreation programs, facilities, sports
+
+## Library
+Website: https://library.your-town.gov
+What to catalog: Services, programs, events
+
+## Local News
+Weekly newspaper
+What to catalog: Recent articles, community calendar
+(No URL - Claude will search for it)
+```
+
+**See `community.md.example` for a complete template.**
+
+### Step 2: Prompt Claude
+
+```
+Please read community.md and create a complete community information catalog.
+```
+
+Claude will automatically:
+1. **Read community.md** and understand your community structure
+2. **Search for missing URLs** (if you didn't provide them)
+3. **Create sites_config.yaml** with all sites to scrape
+4. **Scrape each website** (government, schools, parks, library, news)
+5. **Analyze each site** individually (create indexes for each)
+6. **Synthesize across sites** (create unified navigation)
+7. **Generate GPT instructions** (unified assistant that knows everything)
+
+### Step 3: Create Your Community GPT
+
+Claude creates a comprehensive knowledge base in `output/analysis/`:
+
+**Community-wide documents:**
+- `community_overview.md` - Which organization handles what
+- `cross_site_navigation.md` - Routing guide
+- `community_index.md` - Master index by topic
+- `gpt_instructions.md` - Unified assistant instructions (use as system prompt)
+
+**Per-site documents** (one set for each organization):
+- `{site-id}_site_overview.md`
+- `{site-id}_complete_index.md`
+- `{site-id}_page_index.md`
+- `{site-id}_document_catalog.md`
+- `{site-id}_navigation_guide.md`
+
+All files use site-prefixed names (e.g., `village_site_overview.md`, `district97_complete_index.md`) to avoid conflicts when uploading to GPT.
+
+**To create your GPT:**
+1. Upload all files from `output/analysis/` to your GPT's knowledge base
+2. Use `gpt_instructions.md` as your GPT's system prompt
+
+Now residents can ask questions like:
+- "How do I enroll my child in school?" (routes to school district)
+- "When is garbage pickup?" (routes to village)
+- "What youth programs are available?" (synthesizes across park district, schools, and library)
+- "What's the village doing about [recent news topic]?" (connects news to official sources)
+
+**The GPT knows the entire community information landscape** and routes questions to the right organization automatically.
+
+---
 
 ## What It Does
 
@@ -133,16 +243,41 @@ output/
 └── .crawl_state.json        # Resume state
 ```
 
-After Claude analysis:
+After Claude analysis (single-site):
 ```
 output/
 ├── [Above files...]
-└── [Reference documents]    # Ready for GPT
+└── analysis/                # Ready for GPT upload
     ├── site_overview.md
     ├── page_index.md
+    ├── complete_index.md
     ├── document_catalog.md
     ├── navigation_guide.md
     └── gpt_instructions.md
+```
+
+After Claude analysis (multi-site):
+```
+output/
+├── sites_config.yaml
+├── village/                 # Raw data
+│   ├── pages/
+│   └── pdfs/
+├── district97/              # Raw data
+│   ├── pages/
+│   └── pdfs/
+└── analysis/                # All GPT-ready files (UPLOAD THIS)
+    ├── community_overview.md
+    ├── cross_site_navigation.md
+    ├── community_index.md
+    ├── gpt_instructions.md
+    ├── village_site_overview.md
+    ├── village_complete_index.md
+    ├── village_page_index.md
+    ├── village_document_catalog.md
+    ├── village_navigation_guide.md
+    ├── district97_site_overview.md
+    └── [... site-prefixed files for each organization ...]
 ```
 
 ## Example: Oak Park, Illinois
@@ -232,11 +367,28 @@ The scraper:
 ## Developer Notes
 
 If you want to run the analysis tools directly (without Claude):
+
+**Single-site (no prefix):**
 ```bash
-python3 analyze_catalog.py
+cd output
+python3 ../analyze_catalog.py
+cd ..
 python3 generate_page_index.py
+python3 generate_complete_index.py
 python3 generate_document_catalog.py
 ```
+
+**Multi-site (with site-id prefix):**
+```bash
+cd output/village
+python3 ../../analyze_catalog.py
+cd ../..
+python3 generate_page_index.py --site-id village
+python3 generate_complete_index.py --site-id village
+python3 generate_document_catalog.py --site-id village
+```
+
+All generated files go in `output/analysis/` with optional site-id prefixes (e.g., `village_page_index.md`).
 
 You'll still need to manually create `site_overview.md` and `navigation_guide.md`, which is why prompting Claude is recommended.
 
